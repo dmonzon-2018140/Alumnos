@@ -1,0 +1,33 @@
+const{Schema, model} = require('mongoose');
+
+const UsuarioSchema = Schema({
+    nombre: {
+        type: String,
+        required: [true, 'El nombre es obligatorio']
+    },
+    correo: {
+        type: String,
+        required: [true, 'El correo es obligatorio'],
+        unique: true
+    },
+    password: {
+        type: String,
+        required: [true, 'El password es obligatorio']
+    },
+    rol: {
+        type: String,
+        required: true,
+        //enum: ['ALUMNO_ROLE', 'MAESTRO_ROLE']
+    },
+    estado: {
+        type: Boolean,
+        default: true
+    },
+    asignacion: {
+        type: Schema.Types.ObjectId,
+        ref: ['Asignacion',],
+        required: true
+    }
+});
+
+module.exports = model('Usuario', UsuarioSchema)
