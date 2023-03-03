@@ -6,12 +6,12 @@ const getCursos = async (req = request, res = response) => {
 
     const listaCursos = await Promise.all([
         Curso.countDocuments(query),
-        Curso.find(query).populate('asignacion', 'alumnos')
+        Curso.find(query).populate('usuario', 'nombre')
     ]);
 
     res.json({
         msg: 'get Curso',
-       listaCursos
+        listaCursos
     });
 
 }
@@ -19,70 +19,67 @@ const getCursos = async (req = request, res = response) => {
 
 const getCursoPorID = async (req = request, res = response) => {
 
-  const { id } = req.params;
-  const cursoById = await Categoria.findById( id ).populate('usuario', 'alumnos');
+    const { id } = req.params;
+    const cursoById = await Curso.findById(id).populate('usuario', 'nombre');
 
-  res.status(201).json( cursoById );
+    res.status(201).json(cursoById);
 
 }
 
 
 const postCurso = async (req = request, res = response) => {
-   const nombre = req.body.nombre.toUpperCase();
+    const nombre = req.body.nombre.toUpperCase();
 
-   const cursoDB = await Curso.findOne({ nombre });
+    const cursoDB = await Curso.findOne({ nombre });
 
-   if (cursoDB) {
-       return res.status(400).json({
-           msg: `El curso ${cursoDB.nombre}, ya existe`
-       });
-   }
+    if (cursoDB) {
+        return res.status(400).json({
+            msg: `El curso ${cursoDB.nombre}, ya existe`
+        });
+    }
 
-   const data = {
-       nombre,
-       asignacion: req.asignacion._id
-   }
+    const data = {
+        nombre,
+        usuario: req.usuario._id
+    }
 
-   const curso = new Curso(data);
+    const curso = new Curso(data);
 
-   await curso.save();
+    await curso.save();
 
-   res.status(201).json(curso);
+    res.status(201).json(curso);
 
 }
 
 
 const putCurso = async (req = request, res = response) => {
 
-   const { id } = req.params;
-   const { estado, asignacion, ...resto } = req.body;
+    const { id } = req.params;
+    const { estado, usuario, ...resto } = req.body;
 
-   resto.nombre = resto.nombre.toUpperCase();
-   resto.asignacion = req.asignacion._id;
+    resto.nombre = resto.nombre.toUpperCase();
+    resto.usuario = req.usuario._id;
 
-   const cursoEditado = await Curso.findByIdAndUpdate(id, resto, { new: true });
+    const cursoEditado = await Curso.findByIdAndUpdate(id, resto, { new: true });
 
-   res.status(201).json(cursoEditado);
+    res.status(201).json(cursoEditado);
 
 }
 
 const deleteCurso = async (req = request, res = response) => {
 
-   const { id } = req.params;
+    const { id } = req.params;
 
-   const cursoEliminado = await Curso.findByIdAndUpdate(id, { estado: false }, { new: true });
+    const cursoEliminado = await Curso.findByIdAndUpdate(id, { estado: false }, { new: true });
 
-   res.status(201).json(cursoEliminado);
+    res.status(201).json(cursoEliminado);
 
 }
 
-
-
-
 module.exports = {
-   getCursos,
-   getCursoPorID,
-   postCurso,
-   putCurso,
-   deleteCurso
+    getCursos,
+    getCursoPorID,
+    postCurso,
+    putCurso,
+    deleteCurso
 }

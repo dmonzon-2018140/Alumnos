@@ -22,11 +22,6 @@ const UsuarioSchema = Schema({
     estado: {
         type: Boolean,
         default: true
-    },
-    asignacion: {
-        type: Schema.Types.ObjectId,
-        ref: ['Asignacion',],
-        required: true
     }
 });
 

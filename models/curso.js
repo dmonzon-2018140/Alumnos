@@ -6,14 +6,16 @@ const CursoSchema = Schema({
         required: [true , 'El nombre del curso es obligatorio'],
         unique: true
     },
+    descripcion: {
+        type: String
+    },
     estado: {
         type: Boolean,
-        default: true,
-        required: true
+        default: true
     },
-    asignacion: {
+    usuario: {
         type: Schema.Types.ObjectId,
-        ref: 'Asignacion',
+        ref: 'Usuario',
         required: true
     }
 });

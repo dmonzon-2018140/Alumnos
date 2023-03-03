@@ -4,6 +4,7 @@ const { getCursos, getCursoPorID, postCurso, putCurso, deleteCurso } = require('
 const { existeCursoPorId } = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
+const { maestroRole } = require('../middlewares/validar-roles');
 
 const router = Router();
 
@@ -23,6 +24,7 @@ router.post('/agregar', [
 
 router.put('/editar/:id', [
     validarJWT,
+    maestroRole,
     check('id', 'No es id de Mongo Válido').isMongoId(),
     check('nombre', 'El nombre es obligatorio').not().isEmpty(),
     check('id').custom( existeCursoPorId ),
@@ -31,6 +33,7 @@ router.put('/editar/:id', [
 
 router.delete('/eliminar/:id', [
     validarJWT,
+    maestroRole,
     check('id', 'No es id de Mongo Válido').isMongoId(),
     check('id').custom( existeCursoPorId ),
     validarCampos

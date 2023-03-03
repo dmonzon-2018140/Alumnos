@@ -9,9 +9,9 @@ const maestroRole = (req = request, res = response, next) => {
 
     const {rol, nombre} = req.usuario;
 
-    if (rol !== 'ALUMNO_ROLE') {
+    if (rol !== 'MAESTRO_ROLE') {
         return res.status(500).json({
-            msg: `${ nombre } es Alumno - Sin acceso a esta función`
+            msg: `${ nombre } no es Maestro - Sin acceso a esta función`
         });
     }
 
@@ -27,9 +27,9 @@ const alumnoRole = (req = request, res = response, next) => {
 
     const {rol, nombre} = req.usuario;
 
-    if (rol !== 'MAESTRO_ROLE') {
+    if (rol !== 'ALUMNO_ROLE') {
         return res.status(500).json({
-            msg: `${ nombre } es Maestro - Sin acceso a esta función`
+            msg: `${ nombre } no es Alumno - Sin acceso a esta función`
         });
     }
 

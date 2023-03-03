@@ -1,31 +1,27 @@
 const{Schema, model} = require('mongoose');
 
 const AgignacionSchema = Schema({
-    alumnos: {
-        type: Array,
-        required: [true, 'Los alumnos son obligatorios']
-    },
-    maestro: {
+    salon: {
         type: String,
-        required: [true, 'El profesor es obligatorio'],
+        required: [true, 'El salon es obligatorio'],
         unique: true
-    },
-    codigo: {
-        type: String
-    },
-    rol: {
-        type: String,
-        required: true,
-        //enum: ['ALUMNO_ROLE', 'MAESTRO_ROLE']
     },
     estado: {
         type: Boolean,
         default: true
     },
-    cantidad: {
-        type: Number,
-        default: true
-    }
+    usuario: {
+        type: Schema.Types.ObjectId,
+        ref: 'Usuario',
+        required: true
+    },
+    curso: {
+        type: Schema.Types.ObjectId,
+        ref: 'Curso',
+        required: true
+    },
+    fecha: {type: Date}
+    
 });
 
 module.exports = model('Asignacion', AgignacionSchema)
